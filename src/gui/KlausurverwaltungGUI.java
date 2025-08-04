@@ -63,7 +63,9 @@ public class KlausurverwaltungGUI extends Application {
         klausurenItem.setOnAction(e -> showKlausurenVerwaltung());
         MenuItem anmeldungenItem = new MenuItem("Anmeldungen");
         anmeldungenItem.setOnAction(e -> showAnmeldungsVerwaltung());
-        verwaltungMenu.getItems().addAll(studentenItem, klausurenItem, anmeldungenItem);
+        MenuItem notenItem = new MenuItem("Noten");
+        notenItem.setOnAction(e -> showNotenVerwaltung());
+        verwaltungMenu.getItems().addAll(studentenItem, klausurenItem, anmeldungenItem, notenItem);
         
         // Auswertung Menu
         Menu auswertungMenu = new Menu("Auswertung");
@@ -167,6 +169,12 @@ public class KlausurverwaltungGUI extends Application {
         AnmeldungsView view = new AnmeldungsView(studentenVerwaltung, klausurVerwaltung);
         root.setCenter(view);
         updateStatus("Anmeldungsverwaltung geöffnet");
+    }
+
+    private void showNotenVerwaltung() {
+        NotenView view = new NotenView(studentenVerwaltung, klausurVerwaltung);
+        root.setCenter(view);
+        updateStatus("Notenverwaltung geöffnet");
     }
     
     private void showStatistiken() {
