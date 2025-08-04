@@ -12,6 +12,7 @@ import verwaltung.ErweiterteStudentenVerwaltung.DuplikatException;
 import verwaltung.ErweiterteStudentenVerwaltung.ValidationResult;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class StudentenView extends BorderPane {
     private ErweiterteStudentenVerwaltung verwaltung;
@@ -20,15 +21,17 @@ public class StudentenView extends BorderPane {
     private TextField suchfeld;
     private ComboBox<String> suchkriteriumBox;
     private Label statistikLabel;
-    
-    public StudentenView(ErweiterteStudentenVerwaltung verwaltung) {
+    private final Consumer<Student> notenHandler;
+
+    public StudentenView(ErweiterteStudentenVerwaltung verwaltung, Consumer<Student> notenHandler) {
         this.verwaltung = verwaltung;
+        this.notenHandler = notenHandler;
         this.studentenListe = FXCollections.observableArrayList();
-        
+
         setTop(createToolBar());
         setCenter(createTableView());
         setBottom(createStatistikBar());
-        
+
         aktualisiereListe();
     }
     
@@ -49,6 +52,14 @@ public class StudentenView extends BorderPane {
         
         Button loeschenButton = new Button("Löschen");
         loeschenButton.setOnAction(e -> studentLoeschen());
+
+        Button notenButton = new Button("Note eintragen");
+        notenButton.setOnAction(e -> {
+            Student selected = tableView.getSelectionModel().getSelectedItem();
+            if (selected != null && notenHandler != null) {
+                notenHandler.accept(selected);
+            }
+        });
         
         // Suche
         suchfeld = new TextField();
@@ -64,7 +75,7 @@ public class StudentenView extends BorderPane {
         aktualisierenButton.setOnAction(e -> aktualisiereListe());
         
         toolBar.getItems().addAll(
-            neuButton, bearbeitenButton, loeschenButton,
+            neuButton, bearbeitenButton, loeschenButton, notenButton,
             new Separator(),
             new Label("Suche:"), suchkriteriumBox, suchfeld,
             new Separator(),
