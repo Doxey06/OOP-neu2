@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.referencedLibraries": [
+        "lib\\slf4j-api.jar",
+        "lib\\slf4j-simple.jar",
+        "c:\\OOP\\lib\\sqlite-jdbc.jar"
+    ]
+}
