@@ -33,8 +33,21 @@ public class StatistikView extends BorderPane {
             createKlausurstatistikTab(),
             createLeistungsTab()
         );
-        
+
         setCenter(tabPane);
+    }
+
+    /**
+     * Aktualisiert alle Statistik-Tabs nach Datenänderungen
+     */
+    public void refresh() {
+        tabPane.getTabs().setAll(
+            createUebersichtTab(),
+            createNotenverteilungTab(),
+            createStudiengangTab(),
+            createKlausurstatistikTab(),
+            createLeistungsTab()
+        );
     }
     
     private Tab createUebersichtTab() {

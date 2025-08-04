@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class NotenView extends BorderPane {
     private final ErweiterteStudentenVerwaltung studentenVerwaltung;
     private final KlausurVerwaltung klausurVerwaltung;
+    private final Runnable statistikUpdateCallback;
 
     private ComboBox<Student> studentComboBox;
     private ComboBox<Klausur> klausurComboBox;
@@ -22,9 +23,11 @@ public class NotenView extends BorderPane {
     private TableView<Versuch> versucheTable;
     private TextArea statusArea;
 
-    public NotenView(ErweiterteStudentenVerwaltung studentenVerwaltung, KlausurVerwaltung klausurVerwaltung) {
+    public NotenView(ErweiterteStudentenVerwaltung studentenVerwaltung, KlausurVerwaltung klausurVerwaltung,
+                     Runnable statistikUpdateCallback) {
         this.studentenVerwaltung = studentenVerwaltung;
         this.klausurVerwaltung = klausurVerwaltung;
+        this.statistikUpdateCallback = statistikUpdateCallback;
 
         setTop(createControlPanel());
         setCenter(createVersucheTable());
@@ -195,6 +198,9 @@ public class NotenView extends BorderPane {
                 student.getNachname(), klausur.getTitel()));
             noteField.clear();
             aktualisiereVersuchstabelle();
+            if (statistikUpdateCallback != null) {
+                statistikUpdateCallback.run();
+            }
         } catch (NumberFormatException ex) {
             showError("Ungültige Note. Bitte eine Zahl zwischen 1.0 und 5.0 eingeben.");
         } catch (Exception ex) {
