@@ -155,7 +155,7 @@ public class KlausurverwaltungGUI extends Application {
     }
     
     private void showStudentenVerwaltung() {
-        StudentenView view = new StudentenView(studentenVerwaltung);
+        StudentenView view = new StudentenView(studentenVerwaltung, this::showNotenVerwaltung);
         root.setCenter(view);
         updateStatus("Studentenverwaltung geöffnet");
     }
@@ -173,7 +173,11 @@ public class KlausurverwaltungGUI extends Application {
     }
 
     private void showNotenVerwaltung() {
-        NotenView view = new NotenView(studentenVerwaltung, klausurVerwaltung, this::refreshStatistikenWennOffen);
+        showNotenVerwaltung(null);
+    }
+
+    private void showNotenVerwaltung(Student student) {
+        NotenView view = new NotenView(studentenVerwaltung, klausurVerwaltung, this::refreshStatistikenWennOffen, student);
         root.setCenter(view);
         updateStatus("Notenverwaltung geöffnet");
     }

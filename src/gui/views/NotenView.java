@@ -25,6 +25,11 @@ public class NotenView extends BorderPane {
 
     public NotenView(ErweiterteStudentenVerwaltung studentenVerwaltung, KlausurVerwaltung klausurVerwaltung,
                      Runnable statistikUpdateCallback) {
+        this(studentenVerwaltung, klausurVerwaltung, statistikUpdateCallback, null);
+    }
+
+    public NotenView(ErweiterteStudentenVerwaltung studentenVerwaltung, KlausurVerwaltung klausurVerwaltung,
+                     Runnable statistikUpdateCallback, Student vorausgewaehlterStudent) {
         this.studentenVerwaltung = studentenVerwaltung;
         this.klausurVerwaltung = klausurVerwaltung;
         this.statistikUpdateCallback = statistikUpdateCallback;
@@ -34,6 +39,11 @@ public class NotenView extends BorderPane {
         setBottom(createStatusPanel());
 
         aktualisiereStudentenliste();
+        if (vorausgewaehlterStudent != null) {
+            studentComboBox.setValue(vorausgewaehlterStudent);
+            aktualisiereKlausurliste();
+            aktualisiereVersuchstabelle();
+        }
     }
 
     private VBox createControlPanel() {
