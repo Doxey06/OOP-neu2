@@ -103,9 +103,10 @@ public class KlausurverwaltungGUI extends Application {
         Button studentButton = createQuickActionButton("Studenten\nverwalten", e -> showStudentenVerwaltung());
         Button klausurButton = createQuickActionButton("Klausuren\nverwalten", e -> showKlausurenVerwaltung());
         Button anmeldungButton = createQuickActionButton("Anmeldungen\nverwalten", e -> showAnmeldungsVerwaltung());
+        Button notenButton = createQuickActionButton("Noten\neintragen", e -> showNotenVerwaltung());
         Button statistikButton = createQuickActionButton("Statistiken\nanzeigen", e -> showStatistiken());
-        
-        quickActions.getChildren().addAll(studentButton, klausurButton, anmeldungButton, statistikButton);
+
+        quickActions.getChildren().addAll(studentButton, klausurButton, anmeldungButton, notenButton, statistikButton);
         
         // Aktuelle Statistiken
         VBox stats = new VBox(10);
@@ -172,7 +173,7 @@ public class KlausurverwaltungGUI extends Application {
     }
 
     private void showNotenVerwaltung() {
-        NotenView view = new NotenView(studentenVerwaltung, klausurVerwaltung);
+        NotenView view = new NotenView(studentenVerwaltung, klausurVerwaltung, this::refreshStatistikenWennOffen);
         root.setCenter(view);
         updateStatus("Notenverwaltung geöffnet");
     }
@@ -188,7 +189,13 @@ public class KlausurverwaltungGUI extends Application {
         root.setCenter(view);
         updateStatus("Benachrichtigungen geöffnet");
     }
-    
+
+    private void refreshStatistikenWennOffen() {
+        if (root.getCenter() instanceof StatistikView) {
+            ((StatistikView) root.getCenter()).refresh();
+        }
+    }
+
     private void showAboutDialog() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Über Klausurverwaltungssystem");
